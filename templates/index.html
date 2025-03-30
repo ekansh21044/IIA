@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Movie Search</h1>
+    <form method="POST" action="{{ url_for('search') }}">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title">
+
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" id="genre">
+
+        <label for="rating">Minimum MovieLens Rating:</label>
+        <input type="number" step="0.1" name="rating" id="rating">
+
+        <label for="imdb_rating">Minimum IMDb Rating:</label>
+        <input type="number" step="0.1" name="imdb_rating" id="imdb_rating">
+
+        <label for="release_year">Release Year:</label>
+        <input type="number" name="release_year" id="release_year">
+
+        <button type="submit">Search</button>
+    </form>
+
+    {% if results %}
+        <h2>Search Results</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Genres (IMDb)</th>
+                    <th>Genres (MovieLens)</th>
+                    <th>MovieLens Rating</th>
+                    <th>IMDb Rating</th>
+                    <th>Average Rating</th>  <!-- Add a column for Average Rating -->
+                    <th>Release Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in results %}
+                <tr>
+                    <td>{{ movie.title }}</td>
+                    <td>{{ movie.imdb_genres }}</td>
+                    <td>{{ movie.ml_genres }}</td>
+                    <td>{{ movie.ml_rating }}</td>
+                    <td>{{ movie.imdb_rating }}</td>
+                    <td>{{ movie.average_rating }}</td>  <!-- Display the average rating here -->
+                    <td>{{ movie.release_year }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>
